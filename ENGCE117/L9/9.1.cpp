@@ -175,15 +175,9 @@ void FindData(LinkedList *ll) {
 void readfile(LinkedList *ll) {
     FILE *fp = fopen("students.dat", "rb");
     if (fp == NULL) return;
-    
     struct studentNode temp;
-   
-    while (fread(temp.name, sizeof(temp.name), 1, fp)) {
-        fread(&temp.age, sizeof(int), 1, fp);
-        fread(&temp.sex, sizeof(char), 1, fp);
-        fread(&temp.gpa, sizeof(float), 1, fp);
-        
-        ll->GoFirst();  
+    while (fread(&temp, sizeof(struct studentNode) - sizeof(struct studentNode*), 1, fp)) {
+        ll->GoFirst();
         ll->InsNode(temp.name, temp.age, temp.sex, temp.gpa);
     }
     fclose(fp);
@@ -192,15 +186,10 @@ void readfile(LinkedList *ll) {
 void writefile(LinkedList *ll) {
     FILE *fp = fopen("students.dat", "wb");
     if (fp == NULL) return;
-    
     ll->GoFirst();
     struct studentNode *curr;
     while ((curr = ll->NowNode()) != NULL) {
-    
-        fwrite(curr->name, sizeof(curr->name), 1, fp);
-        fwrite(&curr->age, sizeof(int), 1, fp);
-        fwrite(&curr->sex, sizeof(char), 1, fp);
-        fwrite(&curr->gpa, sizeof(float), 1, fp);
+        fwrite(curr, sizeof(struct studentNode) - sizeof(struct studentNode*), 1, fp);
         ll->GoNext();
     }
     fclose(fp);
