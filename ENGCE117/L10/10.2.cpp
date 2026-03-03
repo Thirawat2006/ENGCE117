@@ -1,29 +1,20 @@
 #include <stdio.h>
 
-long SumLoop( int );
-long SumRecur( int );
+void TowerHanoi( int m, int i, int j );
 
 int main() {
-    int n = 10;
-    
-    printf( "SumLoop(%d) = %ld\n", n, SumLoop( n ) );
-    printf( "SumRecur(%d) = %ld\n", n, SumRecur( n ) );
-
+    TowerHanoi( 3, 1, 3 ); 
     return 0;
 }
 
-long SumLoop( int n ) {
-    long sum = 0;
-    for( int i = 1; i <= n; i++ ) {
-        sum += i;
-    }
-    return sum;
-}
+void TowerHanoi( int m, int i, int j ) {
 
-long SumRecur( int n ) {
-    if ( n > 1 ) {
-        return n + SumRecur( n - 1 );
-    } else {
-        return 1;
+    if ( m > 0 ) {
+
+        int k = 6 - i - j;
+        
+        TowerHanoi( m - 1, i, k );
+        printf("disc %d from %d to %d\n", m, i, j);
+        TowerHanoi( m - 1, k, j );
     }
 }
